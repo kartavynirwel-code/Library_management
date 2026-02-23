@@ -1,0 +1,162 @@
+/* --- Dashboard Layout Fixes --- */
+
+/* 1. Navigation Bar Fix */
+.top-nav {
+    background-color: #1e293b; /* Dark Slate Blue */
+    width: 100%;
+    height: 70px;
+    display: flex; /* Items ko line mein laane ke liye */
+    justify-content: space-between; /* Left aur Right mein gap */
+    align-items: center;
+    padding: 0 40px; /* Side spacing */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    position: fixed; /* Header ko top par chipka dein */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-brand {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.user-info {
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.95rem;
+}
+
+.logout-btn {
+    background-color: #e11d48;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #be123c;
+}
+
+/* 2. Main Wrapper Fix (Header ke neeche space) */
+.dashboard-wrapper {
+    margin-top: 70px; /* Header ke peeche content na chupe */
+    padding: 40px 10%; /* Left-Right spacing badha di */
+    background-color: #0f172a; /* Page ka background dark */
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* 3. Stats Row Fix (Jo text gayab tha) */
+.stats-row {
+    display: flex; /* Grid ki jagah Flex zyada safe hai */
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 30px;
+    justify-content: space-between;
+}
+
+.stat-card {
+    background: #ffffff; /* Card ko safed rang diya */
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1; /* Sabhi cards barabar chaude honge */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-left: 5px solid #2563eb; /* Blue border styling */
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.stat-value.warning { color: #e11d48; } /* Red for pending */
+.stat-value.success { color: #16a34a; } /* Green for active */
+
+/* 4. Action Cards Fix (Center Wala Box) */
+.portal-card.landscape-wide {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
+}
+
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Columns fix */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Icons aur Buttons styling */
+.action-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 30px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-box:hover {
+    transform: translateY(-5px);
+    border-color: #2563eb;
+}
+
+.icon-container {
+    width: 60px;
+    height: 60px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.highlight-icon {
+    background: #2563eb;
+    color: white;
+}
+
+.action-link-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: 1px solid #cbd5e1;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+.action-link-btn.primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+}
