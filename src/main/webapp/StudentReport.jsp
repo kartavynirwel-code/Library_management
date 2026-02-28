@@ -1,56 +1,218 @@
+<%@ page import="java.sql.*, java.text.SimpleDateFormat" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<%
+    HttpSession userSession = request.getSession(false);
+
+    if (userSession == null || userSession.getAttribute("student_id") == null) {
+        response.sendRedirect("index.jsp");
+        return;
+    }
+
+    int studentId = (Integer) userSession.getAttribute("student_id");
+    String studentName = (String) userSession.getAttribute("name");
+
+    int rowCount = 0;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+%>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Student Portal | Reports</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; color: var(--text-main); }
-        th, td { padding: 12px; border: 1px solid var(--border); text-align: left; font-size: 0.9rem; }
-        th { background: #f8fafc; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; }
-        .status-pending { color: #e11d48; font-weight: bold; }
-        .status-returned { color: #16a34a; font-weight: bold; }
+        .back-btn-wrapper {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
-<main class="viewport-wrapper">
-    <div class="content-container">
-        <section class="portal-card" style="max-width: 900px;">
-            <div class="header-area">
-                <h1>Library Reports</h1>
-                <p>Summary of issued and pending books</p>
-            </div>
 
-            <table>
+<nav class="top-nav">
+    <div class="nav-brand">Library Portal</div>
+    <div class="user-info">
+        <span>Welcome, <strong><%= studentName %></strong></span>
+        <button class="logout-btn" onclick="window.location.href='logout'">Logout</button>
+    </div>
+</nav>
+
+<main class="dashboard-wrapper">
+
+    <div class="report-card">
+
+        <div class="report-header">
+            <h1>Library Reports</h1>
+            <p>Your issued books history</p>
+        </div>
+
+        <div class="table-wrap">
+            <table class="report-table">
                 <thead>
                 <tr>
                     <th>Book Title</th>
                     <th>Issue Date</th>
                     <th>Due Date</th>
                     <th>Status</th>
+                    <th>Action</th> <!-- NEW COLUMN -->
                 </tr>
                 </thead>
                 <tbody>
+
+                <%
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+
+                        try (
+                                Connection conn = DriverManager.getConnection(
+                                        "jdbc:mysql://localhost:3306/library", "root", "root");
+
+                                PreparedStatement ps = conn.prepareStatement(
+                                        "SELECT i.issue_id, b.book_title, i.issue_date, i.due_date, i.status " +
+                                                "FROM issue_books i " +
+                                                "JOIN books b ON i.book_id = b.book_id " +
+                                                "WHERE i.student_id = ? " +
+                                                "ORDER BY i.issue_date DESC"
+                                )
+                        ) {
+
+                            ps.setInt(1, studentId);
+                            ResultSet rs = ps.executeQuery();
+
+                            while (rs.next()) {
+
+                                rowCount++;
+
+                                int issueId = rs.getInt("issue_id");
+                                String title = rs.getString("book_title");
+                                Timestamp issueDate = rs.getTimestamp("issue_date");
+                                Date dueDate = rs.getDate("due_date");
+                                String status = rs.getString("status");
+
+                                boolean isLate = false;
+
+                                if (dueDate != null && "Issued".equalsIgnoreCase(status)) {
+                                    Date today = new Date(System.currentTimeMillis());
+                                    isLate = today.after(dueDate);
+                                }
+
+                                String badgeClass;
+                                String finalStatus;
+
+                                if ("Returned".equalsIgnoreCase(status)) {
+                                    badgeClass = "badge-success";
+                                    finalStatus = "Returned";
+                                }
+                                else if (isLate) {
+                                    badgeClass = "badge-danger";
+                                    finalStatus = "Late";
+                                }
+                                else {
+                                    badgeClass = "badge-warning";
+                                    finalStatus = "Issued";
+                                }
+                %>
+
                 <tr>
-                    <td>Core Java Programming</td>
-                    <td>2026-01-10</td>
-                    <td>2026-01-25</td>
-                    <td class="status-returned">Returned</td>
+                    <td><%= title %></td>
+                    <td><%= issueDate != null ? sdf.format(issueDate) : "-" %></td>
+                    <td><%= dueDate != null ? sdf.format(dueDate) : "-" %></td>
+
+                    <td>
+        <span class="status-badge <%= badgeClass %>">
+            <%= finalStatus %>
+        </span>
+                    </td>
+
+                    <td>
+
+                        <% if (!"Returned".equalsIgnoreCase(status)) { %>
+
+                        <form action="ReturnBook" method="POST" style="display:inline;">
+                            <input type="hidden" name="issue_id" value="<%= issueId %>">
+
+                            <button type="submit"
+                                    style="
+                    padding:6px 12px;
+                    background:#2563eb;
+                    color:white;
+                    border:none;
+                    border-radius:6px;
+                    cursor:pointer;
+                    font-size:13px;
+                    font-weight:600;
+                ">
+                                Return
+                            </button>
+                        </form>
+
+                        <% } else { %>
+                        <span style="color:gray;">-</span>
+                        <% } %>
+
+                    </td>
                 </tr>
+
+                <%
+                        }
+                        rs.close();
+                    }
+
+                } catch (Exception e) {
+                %>
                 <tr>
-                    <td>Advanced Database Systems</td>
-                    <td>2026-02-05</td>
-                    <td>2026-02-20</td>
-                    <td class="status-pending">Pending</td>
+                    <td colspan="5" style="text-align:center;color:red;">
+                        Error loading records.
+                    </td>
                 </tr>
+                <%
+                    }
+
+                    if (rowCount == 0) {
+                %>
+                <tr>
+                    <td colspan="5" style="text-align:center;">
+                        No issued books found.
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+
                 </tbody>
             </table>
+        </div>
 
-            <div class="action-footer">
-                <button class="back-link" onclick="window.location.href='Welcome.jsp'">← Back to Dashboard</button>
-            </div>
-        </section>
+        <% if (rowCount > 0) { %>
+        <div class="table-footer">
+            <%= rowCount %> record<%= rowCount == 1 ? "" : "s" %> found
+        </div>
+        <% } %>
+
     </div>
+    <div class="back-btn-wrapper">
+        <a href="Welcome.jsp" class="back-btn">
+            ← Back to Dashboard
+        </a>
+    </div>
+
 </main>
 </body>
 </html>

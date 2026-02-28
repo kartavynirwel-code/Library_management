@@ -1,93 +1,206 @@
-/* Professional Color Palette */
+/* ============================================================
+   LIBRARY PORTAL — Login / Index Page CSS
+   File: css/style.css
+   Aesthetic: Refined Institutional Dark / Editorial Luxury
+   Font: DM Serif Display + DM Sans
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────── */
 :root {
-    --bg-dark: #0f172a;       /* Deep Navy/Black */
-    --card-bg: #ffffff;
-    --primary: #1e293b;       /* Slate Grey */
-    --accent: #2563eb;        /* Professional Blue */
-    --border: #e2e8f0;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
+    --bg:            #0c1220;
+    --surface:       #ffffff;
+    --surface-muted: #f8fafc;
+
+    --primary:       #0f1f3d;
+    --primary-hover: #040d1c;
+    --accent:        #1d4ed8;
+    --accent-light:  #eff6ff;
+    --accent-hover:  #1e40af;
+
+    --border:        #dde3ef;
+    --border-focus:  #1d4ed8;
+
+    --text-main:     #0f172a;
+    --text-sub:      #475569;
+    --text-muted:    #94a3b8;
+    --text-white:    #f1f5f9;
+
+    --shadow-card:   0 32px 64px -12px rgba(0,0,0,0.55),
+    0  8px 16px -4px rgba(0,0,0,0.3);
+    --shadow-btn:    0 4px 14px rgba(29,78,216,0.3);
+
+    --radius-card:   12px;
+    --radius-input:  6px;
+    --radius-btn:    6px;
+
+    --transition:    0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --spring:        cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, sans-serif;
 }
 
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
 body {
-    background-color: var(--bg-dark);
-    /* Subtle geometric pattern for a "tech" feel */
-    background-image: radial-gradient(circle at 2px 2px, #1e293b 1px, transparent 0);
-    background-size: 40px 40px;
-    height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background-color: var(--bg);
+    background-image:
+            linear-gradient(rgba(29,78,216,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(29,78,216,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 24px;
 }
 
+/* Ambient glow */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+            radial-gradient(ellipse 60% 40% at 50% 10%, rgba(29,78,216,0.12) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 30% at 80% 80%, rgba(14,165,233,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
 .viewport-wrapper {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 900px; /* Landscape width */
-    padding: 20px;
+    max-width: 780px;
 }
 
+.content-container {
+    width: 100%;
+}
+
+/* ── Portal Card ───────────────────────────────────────────── */
 .portal-card {
-    background: var(--card-bg);
-    padding: 50px;
-    border-radius: 8px; /* Sharper edges for a serious look */
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    background: var(--surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 52px 60px;
     display: flex;
     flex-direction: column;
-    animation: slideUp 0.5s ease-out;
+    animation: cardReveal 0.55s var(--spring) both;
 }
 
-.hidden { display: none; }
+/* ── CRITICAL: hidden class ────────────────────────────────── */
+.hidden {
+    display: none !important;
+}
 
+/* ── Header Area ───────────────────────────────────────────── */
 .header-area {
-    margin-bottom: 40px;
     text-align: center;
+    margin-bottom: 40px;
+    position: relative;
 }
 
-h1 {
-    font-size: 1.8rem;
+/* Decorative gradient rule */
+.header-area::before {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #38bdf8);
+    border-radius: 2px;
+    margin: 0 auto 22px;
+}
+
+.header-area h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
     color: var(--text-main);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+    margin-bottom: 8px;
 }
 
-p {
+.header-area p {
+    font-size: 0.9rem;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
 }
 
-/* Horizontal Role Buttons (Landscape) */
+/* ── Role Selection Grid (2 columns, side by side) ─────────── */
 .role-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns layout */
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .choice-btn {
-    padding: 25px 15px;
-    background: #f8fafc;
-    border: 1px solid var(--border);
+    position: relative;
+    padding: 26px 20px;
+    background: var(--surface-muted);
+    border: 1.5px solid var(--border);
     color: var(--text-main);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
     font-weight: 600;
-    border-radius: 6px;
+    letter-spacing: 0.01em;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    overflow: hidden;
+    transition:
+            border-color var(--transition),
+            background var(--transition),
+            color var(--transition),
+            transform var(--transition),
+            box-shadow var(--transition);
+}
+
+/* Shimmer on hover */
+.choice-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(29,78,216,0.06), transparent 60%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    border-radius: inherit;
 }
 
 .choice-btn:hover {
     border-color: var(--accent);
-    background: #eff6ff;
+    background: var(--accent-light);
     color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(29,78,216,0.12);
 }
 
-/* Login Form Styling */
+.choice-btn:hover::after  { opacity: 1; }
+.choice-btn:active        { transform: translateY(-1px); }
+
+/* ── Auth Form (vertical stack) ────────────────────────────── */
 .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     max-width: 400px;
     margin: 0 auto;
     width: 100%;
@@ -100,83 +213,205 @@ p {
 
 .input-field label {
     display: block;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-sub);
     margin-bottom: 8px;
-    color: var(--text-muted);
 }
 
-input {
+input[type="email"],
+input[type="password"],
+input[type="text"] {
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background: var(--surface-muted);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-input);
+    outline: none;
+    transition:
+            border-color var(--transition),
+            background var(--transition),
+            box-shadow var(--transition);
 }
 
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    border-color: var(--border-focus);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
+}
+
+/* ── Submit Button ─────────────────────────────────────────── */
 .submit-btn {
     width: 100%;
-    padding: 14px;
+    padding: 14px 20px;
     background: var(--primary);
-    color: white;
+    color: var(--text-white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     border: none;
-    border-radius: 4px;
-    font-weight: 600;
+    border-radius: var(--radius-btn);
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+    transition:
+            background var(--transition),
+            transform var(--transition),
+            box-shadow var(--transition);
+}
+
+/* Left-to-right sweep */
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transition: left 0.5s ease;
 }
 
 .submit-btn:hover {
-    background: #000;
+    background: var(--accent);
+    box-shadow: var(--shadow-btn);
+    transform: translateY(-1px);
 }
 
-/* Footer Navigation */
+.submit-btn:hover::before { left: 100%; }
+.submit-btn:active { transform: translateY(0); box-shadow: none; }
+
+/* ── Action Footer ─────────────────────────────────────────── */
 .action-footer {
-    margin-top: 30px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
+/* "New User? Register here" */
 .link-btn {
     background: none;
     border: none;
-    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
     font-weight: 500;
+    color: var(--accent);
     cursor: pointer;
+    padding: 4px 0;
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition);
 }
 
+.link-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent-hover);
+    transition: width var(--transition);
+}
+
+.link-btn:hover              { color: var(--accent-hover); }
+.link-btn:hover::after       { width: 100%; }
+
+/* "← Change Designation" */
 .back-link {
     background: none;
     border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
     color: var(--text-muted);
-    font-size: 0.85rem;
     cursor: pointer;
+    padding: 4px 0;
+    letter-spacing: 0.01em;
+    transition: color var(--transition);
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.back-link:hover { color: var(--text-sub); }
 
-/* Additional professional touches */
+/* ── Select (if used) ──────────────────────────────────────── */
 select {
-    background-color: #f8fafc;
+    width: 100%;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background: var(--surface-muted);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-input);
     cursor: pointer;
-    font-size: 1rem;
-    color: #1e293b;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 select:focus {
-    outline: none;
-    border-color: #2563eb;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
 }
 
+/* ── Anchor links in footer ────────────────────────────────── */
 .action-footer a {
-    font-size: 0.9rem;
-    color: #2563eb;
-    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.action-footer a:hover { color: var(--accent-hover); }
+
+/* ── Animation ─────────────────────────────────────────────── */
+@keyframes cardReveal {
+    from { opacity: 0; transform: translateY(28px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .portal-card {
+        padding: 40px 28px;
+    }
+
+    .header-area h1 {
+        font-size: 1.65rem;
+    }
+
+    .role-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

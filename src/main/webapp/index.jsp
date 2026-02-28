@@ -18,7 +18,6 @@
             </div>
             <div class="role-grid">
                 <button class="choice-btn" onclick="openLogin('Student')">Student</button>
-                <button class="choice-btn" onclick="openLogin('Faculty')">Faculty</button>
                 <button class="choice-btn" onclick="openLogin('Librarian')">Librarian</button>
             </div>
         </section>
@@ -31,19 +30,19 @@
 
             <form id="loginForm" class="auth-form" method="POST">
                 <div class="input-field">
-                    <label>EMAIL ADDRESS</label>
+                    <label>Email Address</label>
                     <input type="email" placeholder="name@example.com" name="id" required>
                 </div>
                 <div class="input-field">
-                    <label>PASSWORD</label>
-                    <input type="password" placeholder="••••••••" name="pass" required>
+                    <label>Password</label>
+                    <input type="password" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;" name="pass" required>
                 </div>
                 <button type="submit" class="submit-btn">Log In</button>
             </form>
 
             <div class="action-footer">
                 <button class="link-btn" onclick="window.location.href='Register.jsp'">New User? Register here</button>
-                <button class="back-link" onclick="goBack()">← Change Designation</button>
+                <button class="back-link" onclick="goBack()">&#8592; Change Designation</button>
             </div>
         </section>
 
@@ -58,7 +57,6 @@
         document.getElementById('roleSelection').classList.add('hidden');
         document.getElementById('loginSection').classList.remove('hidden');
         document.getElementById('loginTitle').innerText = role + " Authentication";
-
         document.getElementById('loginForm').action = "verify?role=" + role;
     }
 

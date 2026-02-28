@@ -19,34 +19,69 @@
 
             <form action="register" method="POST" class="auth-form">
 
+                <!-- Account Type -->
                 <div class="input-field">
                     <label>Account Type</label>
-                    <select name="role" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 4px;">
-                        <option value="Student">Student</option>
-                        <option value="Faculty">Faculty</option>
-                        <option value="Librarian">Librarian</option>
+                    <select name="role" required style="width: 100%; padding: 12px;">
+                        <option value="student">Student</option>
+                        <option value="librarian">Librarian</option>
                     </select>
                 </div>
 
+                <!-- Full Name -->
                 <div class="input-field">
                     <label>Full Name</label>
                     <input type="text" name="fullname" placeholder="John Doe" required>
                 </div>
 
+                <!-- Email -->
                 <div class="input-field">
                     <label>Email Address</label>
                     <input type="email" name="email" placeholder="name@example.com" required>
                 </div>
 
+                <!-- Password -->
                 <div class="input-field">
                     <label>Create Password</label>
                     <input type="password" name="password" required>
                 </div>
 
+                <!-- Confirm Password -->
                 <div class="input-field">
                     <label>Confirm Password</label>
                     <input type="password" name="confirm_password" required>
                 </div>
+
+                <!-- Mobile -->
+                <div class="input-field">
+                    <label>Mobile</label>
+                    <input type="text" name="mobile" required>
+                </div>
+
+                <!-- Address -->
+                <div class="input-field">
+                    <label>Address</label>
+                    <input type="text" name="address" required>
+                </div>
+
+                <!-- Branch -->
+                <div class="input-field">
+                    <label>Branch</label>
+                    <input type="text" name="branch" required>
+                </div>
+
+                <!-- Year -->
+                <div class="input-field">
+                    <label>Year</label>
+                    <input type="number" name="year" min="1" max="5" required>
+                </div>
+
+                <!-- Course -->
+                <div class="input-field">
+                    <label>Course</label>
+                    <input type="text" name="course" required>
+                </div>
+
                 <button type="submit" class="submit-btn">Register Account</button>
             </form>
 
